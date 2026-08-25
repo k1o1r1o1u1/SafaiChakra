@@ -44,8 +44,8 @@ function FillGauge({ pct, threshold }) {
           ))}
         </div>
       </div>
-      <div className="flex flex-col items-center">
-        <span className="text-[22px] font-black leading-none tabular-nums tracking-tighter" style={{ color }}>
+      <div className="flex flex-col items-center pt-1">
+        <span className="text-[22px] font-black leading-tight tabular-nums tracking-tighter" style={{ color }}>
           {pct.toFixed(0)}<span className="text-[12px] font-bold text-[var(--color-text-dim)] ml-0.5">%</span>
         </span>
       </div>
@@ -77,7 +77,7 @@ export default function BinCard({ status, loading, threshold = 70, sensorDiag = 
   const sensorLabel = sensorFailed ? "FAULT" : sensorWarn ? "WARN" : "OK";
 
   return (
-    <div className={`glass-panel p-3.5 relative overflow-hidden transition-all duration-500 border-[var(--color-card-border)] ${isCritical ? 'ring-2 ring-red-500/20' : ''} ${sensorFailed ? 'ring-2 ring-orange-500/30' : ''}`}>
+    <div className={`glass-panel p-3.5 pb-5 relative overflow-hidden transition-all duration-500 border-[var(--color-card-border)] shrink-0 ${isCritical ? 'ring-2 ring-red-500/20' : ''} ${sensorFailed ? 'ring-2 ring-orange-500/30' : ''}`}>
       
       {/* Structural Corner Icon */}
       <div className="absolute -top-4 -right-4 opacity-[0.03] text-[var(--color-text)]">

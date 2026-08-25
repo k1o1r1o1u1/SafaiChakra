@@ -18,7 +18,7 @@ export default function ControlPanel({
   const fillColor = pct >= 70 ? "var(--color-red)" : pct >= 50 ? "var(--color-amber)" : "var(--color-green)";
 
   return (
-    <div className="glass-panel p-4 slide-in flex flex-col gap-4 border-[var(--color-card-border)] relative overflow-hidden">
+    <div className="glass-panel p-4 slide-in flex flex-col gap-4 border-[var(--color-card-border)] relative overflow-hidden shrink-0">
       {/* Background HUD Lines - Using extremely low opacity for a watermark effect */}
       <div className="absolute -top-6 -right-6 p-4 opacity-[0.03] pointer-events-none text-[var(--color-text)]">
         <Zap size={120} />

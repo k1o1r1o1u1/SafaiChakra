@@ -345,7 +345,7 @@ export default function App() {
         </div>
 
         {activeStatus?.is_alert && !toastHidden && (
-          <div className={`fixed top-16 sm:top-24 right-3 left-3 sm:left-auto sm:right-6 z-[1000] glass-panel border-red-500/30 bg-red-500/10 p-3 sm:p-4 sm:min-w-[340px] shadow-[var(--glow-neon)] ${isClosing ? 'animate-alert-pop-out' : 'animate-alert-pop-in'}`}>
+          <div className={`fixed bottom-4 sm:bottom-auto sm:top-24 right-3 left-3 sm:left-auto sm:right-6 z-[1000] glass-panel border-red-500/30 bg-red-500/10 p-3 sm:p-4 sm:min-w-[340px] shadow-[var(--glow-neon)] ${isClosing ? 'animate-alert-pop-out' : 'animate-alert-pop-in'}`}>
             <div className="flex gap-3 sm:gap-4">
               <div className="relative shrink-0">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-red-500/20 flex items-center justify-center text-xl sm:text-2xl">🚨</div>

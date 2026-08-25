@@ -17,38 +17,38 @@ export default function Navbar({ lastUpdated, isLive, page, setPage, onRefresh }
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[1000] px-3 py-2 sm:px-6 sm:py-3 transition-all duration-500">
-      <div className="max-w-[1800px] mx-auto glass-panel border-[var(--color-card-border)] bg-[var(--color-surface)] flex items-center justify-between px-3 py-2 sm:px-6 sm:py-2.5 shadow-xl relative overflow-hidden">
+    <nav className="fixed top-0 left-0 right-0 z-[1000] px-2 sm:px-8 py-2 sm:py-3 transition-all duration-500">
+      <div className="max-w-[1800px] mx-auto glass-panel border-[var(--color-card-border)] bg-[var(--color-surface)] flex items-center justify-between px-3 sm:px-6 py-2 sm:py-2.5 shadow-xl relative overflow-hidden">
 
         {/* Animated HUD line */}
         <div className="absolute top-0 left-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[var(--color-green)]/30 to-transparent" />
 
         {/* Logo */}
-        <div className="flex items-center gap-2.5 sm:gap-4">
-          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center group transition-all shrink-0 ${theme === 'light'
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center group transition-all ${theme === 'light'
             ? 'bg-[var(--color-bg)] border-2 border-[var(--color-green)] shadow-sm'
             : 'bg-[var(--color-green)]/10 border-2 border-[var(--color-green)]/20 hover:bg-[var(--color-green)]/20'
             }`}>
-            <Leaf size={16} className={`sm:w-[18px] sm:h-[18px] transition-transform group-hover:scale-110 ${theme === 'light' ? 'text-[var(--color-green)] fill-[var(--color-bg)]' : 'text-[var(--color-green)]'}`} />
+            <Leaf size={16} className={`transition-transform group-hover:scale-110 ${theme === 'light' ? 'text-[var(--color-green)] fill-[var(--color-bg)]' : 'text-[var(--color-green)]'}`} />
           </div>
           <div className="flex flex-col">
             <div className="flex items-baseline leading-none">
-              <span className="text-[17px] sm:text-[22px] font-black tracking-tight text-[var(--color-text)]">Safai</span>
-              <span className="text-[17px] sm:text-[22px] font-black tracking-tight text-[var(--color-green)]">Chakra</span>
+              <span className="text-[16px] sm:text-[22px] font-black tracking-tight text-[var(--color-text)]">Safai</span>
+              <span className="text-[16px] sm:text-[22px] font-black tracking-tight text-[var(--color-green)]">Chakra</span>
             </div>
             <p className="hidden sm:block text-[11px] font-black uppercase tracking-[0.2em] text-[var(--color-text-dim)] mt-0.5">Operations Center V3.5.1</p>
           </div>
         </div>
 
         {/* ── Nav Tabs ── */}
-        <div className="flex items-center gap-1 bg-[var(--color-bg)] rounded-xl p-1 sm:px-1.5 sm:py-1.5 border border-[var(--color-card-border)]">
+        <div className="flex items-center gap-1 bg-[var(--color-bg)] rounded-xl px-1 sm:px-1.5 py-1 sm:py-1.5 border border-[var(--color-card-border)]">
           {tabs.map(({ id, label, Icon }) => {
             const active = page === id;
             return (
               <button
                 key={id}
                 onClick={() => setPage(id)}
-                className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest transition-all"
+                className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all"
                 style={{
                   background: active ? "var(--color-purple)" : "transparent",
                   color: active ? "#fff" : "var(--color-text-dim)",
@@ -56,41 +56,41 @@ export default function Navbar({ lastUpdated, isLive, page, setPage, onRefresh }
                   boxShadow: active ? "0 0 12px rgba(168,85,247,0.35)" : "none",
                 }}
               >
-                <Icon size={12} className="sm:w-[13px] sm:h-[13px]" />
-                <span className="hidden xs:inline">{label}</span>
+                <Icon size={12} />
+                <span className="hidden sm:inline">{label}</span>
               </button>
             );
           })}
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-3">
-          <div className="hidden md:flex items-center gap-2 text-[var(--color-text-dim)] pr-3 border-r-2 border-[var(--color-card-border)]">
-            <Activity size={14} className="animate-pulse" />
-            <span className="text-[12px] font-black tabular-nums tracking-widest text-[var(--color-text)]">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="hidden lg:flex items-center gap-2.5 text-[var(--color-text-dim)] pr-4 border-r-2 border-[var(--color-card-border)]">
+            <Activity size={16} className="animate-pulse" />
+            <span className="text-[13px] font-black tabular-nums tracking-widest text-[var(--color-text)]">
               {lastUpdated || "--:--:--"}
             </span>
           </div>
 
           <button
             onClick={onRefresh}
-            className="p-2 rounded-xl bg-[var(--color-bg)] border-2 border-[var(--color-card-border)] text-[var(--color-text-dim)] hover:text-[var(--color-green)] transition-all shadow-sm active:scale-95 group"
+            className="p-1.5 sm:p-2 rounded-xl bg-[var(--color-bg)] border-2 border-[var(--color-card-border)] text-[var(--color-text-dim)] hover:text-[var(--color-green)] transition-all shadow-sm active:scale-95 group"
             title="Refresh Data"
           >
-            <RefreshCw size={18} className="transition-transform group-hover:rotate-180 duration-500" />
+            <RefreshCw size={16} className="transition-transform group-hover:rotate-180 duration-500" />
           </button>
 
           <button
             onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-xl bg-[var(--color-bg)] border-2 border-[var(--color-card-border)] text-[var(--color-text-dim)] hover:text-[var(--color-green)] transition-all shadow-sm active:scale-95 shrink-0"
+            className="p-1.5 sm:p-2 rounded-xl bg-[var(--color-bg)] border-2 border-[var(--color-card-border)] text-[var(--color-text-dim)] hover:text-[var(--color-green)] transition-all shadow-sm active:scale-95"
             title="Toggle Theme"
           >
-            {theme === "dark" ? <Sun size={15} className="sm:w-[18px] sm:h-[18px]" /> : <Moon size={15} className="sm:w-[18px] sm:h-[18px]" />}
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
-          <div className={`flex items-center gap-1.5 sm:gap-2 px-2 py-1 sm:px-3 sm:py-1.5 rounded-xl border-2 transition-all duration-500 shadow-sm shrink-0 ${isLive ? 'bg-[var(--color-green)]/5 border-[var(--color-green)]/20 text-[var(--color-green)]' : 'bg-red-500/5 border-red-500/20 text-red-500'}`}>
+          <div className={`flex items-center gap-1.5 sm:gap-3 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl border-2 transition-all duration-500 shadow-sm ${isLive ? 'bg-[var(--color-green)]/5 border-[var(--color-green)]/20 text-[var(--color-green)]' : 'bg-red-500/5 border-red-500/20 text-red-500'}`}>
             <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${isLive ? 'animate-pulse shadow-[0_0_8px_var(--color-green)]' : ''} bg-current`} />
-            <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-[0.2em]">{isLive ? "LIVE" : "OFF"}</span>
+            <span className="text-[10px] sm:text-[12px] font-black uppercase tracking-[0.1em] sm:tracking-[0.25em]">{isLive ? "LIVE" : "OFF"}</span>
           </div>
         </div>
       </div>

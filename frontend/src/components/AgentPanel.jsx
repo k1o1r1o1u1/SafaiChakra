@@ -16,7 +16,7 @@ export default function RouteIntelPanel({ route, optimizing, status }) {
   const stops = useMemo(() => route ? route.filter(b => b !== "DEPOT_00") : [], [route]);
 
   return (
-    <div className="glass-panel p-4 pb-12 slide-in flex flex-col gap-6 border-[var(--color-card-border)] relative overflow-hidden">
+    <div className="glass-panel p-4 pb-12 slide-in flex flex-col gap-6 border-[var(--color-card-border)] relative overflow-hidden shrink-0">
       
       {/* ── Header ── */}
       <div className="flex items-center justify-between relative z-10">

@@ -16,6 +16,7 @@ from sqlalchemy.orm import Session
 
 import models
 from schemas import BinUpdateRequest
+from services.spillover_ml import predict_next_day_spillover_risk
 
 
 ALERT_THRESHOLD = float(os.getenv("ALERT_THRESHOLD", 70.0))
@@ -103,8 +104,6 @@ def get_daily_max_fill_series(db: Session, bin_id: str, days: int = 28) -> List[
 
 def calculate_predictive_risk(db: Session, bin_id: str, current_fill: float) -> int:
     """Next-day spillover risk (0–99) from sklearn model + per-bin daily history."""
-    from services.spillover_ml import predict_next_day_spillover_risk
-
     if current_fill >= 95:
         return 99
     daily = get_daily_max_fill_series(db, bin_id, days=28)

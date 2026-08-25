@@ -9,11 +9,10 @@ from typing import List, Optional
 
 import numpy as np
 
-# try:
-#     from sklearn.ensemble import HistGradientBoostingRegressor
-# except ImportError:  # pragma: no cover
-#     HistGradientBoostingRegressor = None  # type: ignore[misc, assignment]
-HistGradientBoostingRegressor = None
+try:
+    from sklearn.ensemble import HistGradientBoostingRegressor
+except ImportError:  # pragma: no cover
+    HistGradientBoostingRegressor = None  # type: ignore[misc, assignment]
 
 _model: Optional[object] = None
 
@@ -86,5 +85,10 @@ def _feature_row(bin_id: str, daily_fills: List[float], current_fill: float) -> 
 
 
 def predict_next_day_spillover_risk(bin_id: str, daily_fills: List[float], current_fill: float) -> int:
-    # TEMPORARY BYPASS: Prove if ML is causing the deadlock
-    return int(min(current_fill + 22.0, 99.0))
+    m = _ensure_model()
+    if m is None:
+        v = current_fill + 22.0
+        return int(np.clip(round(v), 0, 99))
+    X = _feature_row(bin_id, daily_fills, current_fill)
+    pred = float(m.predict(X)[0])
+    return int(np.clip(round(pred), 0, 99))

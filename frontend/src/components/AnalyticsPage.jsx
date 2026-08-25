@@ -136,7 +136,7 @@ function SectionHeader({ icon: Icon, title, accent, description }) {
 /* ── Chart card wrapper ── */
 function ChartCard({ children, delay = 0 }) {
   return (
-    <div className="glass-panel p-5 slide-in aspect-square flex flex-col overflow-hidden" style={{ animationDelay: `${delay}ms` }}>
+    <div className="glass-panel p-3.5 sm:p-5 slide-in min-h-[300px] sm:min-h-[360px] flex flex-col overflow-hidden" style={{ animationDelay: `${delay}ms` }}>
       {children}
     </div>
   );
@@ -187,16 +187,16 @@ export default function AnalyticsPage({ routeData }) {
   return (
     <div className="h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] font-inter antialiased overflow-hidden">
       {/* ─── Sub-header ─── */}
-      <div className="px-8 pt-5 pb-4 shrink-0 border-b border-[var(--color-card-border)]">
+      <div className="px-4 sm:px-8 pt-4 sm:pt-5 pb-3 sm:pb-4 shrink-0 border-b border-[var(--color-card-border)]">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-[17px] font-black uppercase tracking-[0.2em] text-[var(--color-text)] flex items-center gap-2">
-              <BarChart2 size={18} className="text-[var(--color-purple)]" />
+            <h1 className="text-[15px] sm:text-[17px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[var(--color-text)] flex items-center gap-2">
+              <BarChart2 size={16} className="text-[var(--color-purple)] sm:w-[18px] sm:h-[18px]" />
               Analytics
               <span className="text-[var(--color-purple)]">·</span>
-              <span className="text-[var(--color-text-dim)] text-[12px]">Monthly Efficiency Report</span>
+              <span className="text-[var(--color-text-dim)] text-[11px] sm:text-[12px]">Monthly Efficiency</span>
             </h1>
-            <p className="text-[10px] text-[var(--color-text-muted)] mt-0.5 uppercase tracking-widest">
+            <p className="text-[9px] sm:text-[10px] text-[var(--color-text-muted)] mt-0.5 uppercase tracking-widest">
               Traditional schedule vs AI-optimised routing — 12-month projection
             </p>
           </div>
@@ -206,7 +206,7 @@ export default function AnalyticsPage({ routeData }) {
               <button
                 key={val}
                 onClick={() => setChartType(val)}
-                className="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
+                className="px-2.5 sm:px-3 py-1 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-wider transition-all"
                 style={{
                   background: chartType === val ? "var(--color-purple)" : "transparent",
                   color: chartType === val ? "#fff" : "var(--color-text-dim)",
@@ -221,7 +221,7 @@ export default function AnalyticsPage({ routeData }) {
         </div>
 
         {/* ─── Annual KPIs ─── */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 mt-3 sm:mt-4">
           <KpiCard icon={Fuel} label="Annual Fuel Saved" value={totals.savedFuel.toLocaleString("en-IN")} unit="L" color={AMBER} sub={`${pct}% reduction`} delay={0} />
           <KpiCard icon={Leaf} label="CO₂ Avoided" value={(totals.savedCO2 / 1000).toFixed(1)} unit="tonnes/yr" color={GREEN} sub="vs fixed schedule" delay={60} />
           <KpiCard icon={IndianRupee} label="Cost Savings" value={`₹${(totals.savedCost / 100000).toFixed(1)}L`} unit="per year" color={CYAN} sub="fleet operating cost" delay={120} />
@@ -230,8 +230,8 @@ export default function AnalyticsPage({ routeData }) {
       </div>
 
       {/* ─── Charts ─── */}
-      <div className="flex-1 overflow-y-auto px-8 py-5 custom-scrollbar">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-2 gap-6">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-8 py-4 sm:py-5 custom-scrollbar">
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* FUEL */}
           <ChartCard delay={0}>
             <div className="flex flex-col h-full">

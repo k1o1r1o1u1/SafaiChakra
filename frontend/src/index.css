@@ -73,16 +73,28 @@
   padding: 0;
 }
 
+html, body {
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: 'Inter', sans-serif;
-  font-size: 17px;
-  /* Increased from default */
+  font-size: 15px;
   transition: background 0.5s ease, color 0.5s ease;
   min-height: 100vh;
+  min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: 17px;
+  }
 }
 
 /* ── Shared Utility Classes ──────────────────────────────────── */

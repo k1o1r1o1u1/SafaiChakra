@@ -393,11 +393,11 @@ function MapLegend({ threshold, hasTraffic }) {
   ];
 
   return (
-    <div className="absolute top-4 left-4 z-[1000] glass-panel bg-[var(--color-surface)]/80 px-3 py-1.5 border-[var(--color-card-border)] shadow-xl pointer-events-none backdrop-blur-md flex items-center gap-4">
+    <div className="absolute top-2 left-2 sm:top-4 sm:left-4 z-[1000] glass-panel bg-[var(--color-surface)]/90 px-2 py-1 sm:px-3 sm:py-1.5 border-[var(--color-card-border)] shadow-xl pointer-events-none backdrop-blur-md flex flex-wrap items-center gap-2 sm:gap-4 max-w-[85vw] sm:max-w-none">
       {items.map((i) => (
-        <div key={i.label} className="flex items-center gap-2">
+        <div key={i.label} className="flex items-center gap-1.5 sm:gap-2">
           <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: i.color, boxShadow: `0 0 5px ${i.color}` }} />
-          <span className="text-[9px] font-black text-[var(--color-text)] uppercase tracking-tighter opacity-80">{i.label}</span>
+          <span className="text-[8px] sm:text-[9px] font-black text-[var(--color-text)] uppercase tracking-tighter opacity-80">{i.label}</span>
         </div>
       ))}
     </div>
@@ -650,24 +650,24 @@ export default function MapView({
   const displayPath = roadPath || (route?.map(id => locations[id]).filter(Boolean) || []);
 
   const Header = ({ isModal }) => (
-    <div className="flex items-center justify-between px-5 py-3 bg-[var(--color-surface)] border-b border-[var(--color-card-border)] backdrop-blur-xl shrink-0">
-      <div className="flex items-center gap-3">
-        <div className="relative flex items-center justify-center">
+    <div className="flex items-center justify-between px-3 py-2 sm:px-5 sm:py-3 bg-[var(--color-surface)] border-b border-[var(--color-card-border)] backdrop-blur-xl shrink-0 gap-2">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="relative flex items-center justify-center shrink-0">
           <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"></div>
           <div className="absolute w-2 h-2 rounded-full bg-blue-500 animate-ping opacity-40"></div>
         </div>
-        <div>
-          <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--color-text)]">
-            Grid Intelligence Overlay
+        <div className="truncate">
+          <h3 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[var(--color-text)] truncate">
+            Grid Intelligence
           </h3>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2 shrink-0">
         {optimizing && (
-          <span className="flex items-center gap-2 text-[10px] font-black text-blue-400 uppercase tracking-widest mr-2">
-            <Navigation size={12} className="animate-pulse" />
-            Pathing...
+          <span className="flex items-center gap-1 sm:gap-2 text-[9px] sm:text-[10px] font-black text-blue-400 uppercase tracking-widest mr-1 sm:mr-2">
+            <Navigation size={11} className="animate-pulse" />
+            <span className="hidden xs:inline">Pathing...</span>
           </span>
         )}
 
@@ -675,11 +675,11 @@ export default function MapView({
           <button
             type="button"
             onClick={onClearTraffic}
-            className="p-1.5 rounded-md transition-all border border-transparent hover:bg-red-500/10 text-slate-400 hover:text-red-400 group flex items-center gap-2 pr-3"
+            className="p-1.5 rounded-md transition-all border border-transparent hover:bg-red-500/10 text-slate-400 hover:text-red-400 group flex items-center gap-1.5 sm:gap-2 sm:pr-3"
             title="Clear all traffic data"
           >
-            <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-bold uppercase tracking-widest bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">
+            <Trash2 size={15} className="group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline text-[10px] font-bold uppercase tracking-widest bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">
               Clear
             </span>
           </button>
@@ -688,14 +688,14 @@ export default function MapView({
         <button
           type="button"
           onClick={onToggleDrawTraffic}
-          className={`p-1.5 rounded-md transition-all border border-transparent group flex items-center gap-2 pr-3 ${drawTrafficEnabled
+          className={`p-1.5 rounded-md transition-all border border-transparent group flex items-center gap-1.5 sm:gap-2 sm:pr-3 ${drawTrafficEnabled
             ? "bg-red-500/10 text-red-400 hover:bg-red-500/15"
             : "hover:bg-black/5 dark:hover:bg-white/10 text-slate-400 hover:text-[var(--color-text)]"
             }`}
           title={drawTrafficEnabled ? "Stop drawing traffic" : "Draw traffic on map"}
         >
-          <Brush size={16} className="group-hover:scale-110 transition-transform" />
-          <span className="text-[10px] font-bold uppercase tracking-widest bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">
+          <Brush size={15} className="group-hover:scale-110 transition-transform" />
+          <span className="hidden sm:inline text-[10px] font-bold uppercase tracking-widest bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">
             Draw traffic
             {drawTrafficEnabled ? " · On" : ""}
           </span>
@@ -703,18 +703,18 @@ export default function MapView({
 
         <button
           onClick={() => setRecenterCount(v => v + 1)}
-          className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-md transition-all text-slate-400 hover:text-[var(--color-text)] border border-transparent group flex items-center gap-2 pr-3"
+          className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-md transition-all text-slate-400 hover:text-[var(--color-text)] border border-transparent group flex items-center gap-1.5 sm:gap-2 sm:pr-3"
           title="Recenter Map"
         >
-          <LocateFixed size={16} className="group-hover:scale-110 transition-transform" />
-          <span className="text-[10px] font-bold uppercase tracking-widest bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">Recenter</span>
+          <LocateFixed size={15} className="group-hover:scale-110 transition-transform" />
+          <span className="hidden sm:inline text-[10px] font-bold uppercase tracking-widest bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">Recenter</span>
         </button>
 
         <button
           onClick={() => setExpanded(!isModal)}
           className="p-1.5 hover:bg-black/5 dark:hover:bg-white/10 rounded-md transition-all text-slate-400 hover:text-[var(--color-text)] border border-transparent"
         >
-          {isModal ? <X size={16} /> : <Maximize2 size={16} />}
+          {isModal ? <X size={15} /> : <Maximize2 size={15} />}
         </button>
       </div>
     </div>

@@ -294,86 +294,116 @@ export default function App() {
     setIsClosing(false);
   }, [activeBin]);
 
+  // Mobile dashboard tab switcher (only used below lg breakpoint)
+  const [mobileTab, setMobileTab] = useState("map"); // "map" | "controls"
+
   return (
     <div className="h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] selection:bg-[var(--color-green)]/30 font-inter antialiased overflow-hidden transition-colors duration-300">
       <Navbar lastUpdated={lastUpdated} isLive={isLive} page={page} setPage={setPage} onRefresh={() => fetchData()} />
 
       {page === "analytics" && (
-        <div className="flex-1 overflow-hidden mt-16 slide-in">
+        <div className="flex-1 overflow-hidden mt-14 sm:mt-16 slide-in">
           <AnalyticsPage routeData={routeData} />
         </div>
       )}
 
-
-      <main className={`flex-1 overflow-hidden px-8 py-6 flex flex-col mt-16 slide-in ${page !== "dashboard" ? "hidden" : ""}`}>
+      <main className={`flex-1 overflow-hidden px-3 py-2 sm:px-6 sm:py-4 lg:px-8 lg:py-6 flex flex-col mt-14 sm:mt-16 slide-in ${page !== "dashboard" ? "hidden" : ""}`}>
         {error && (
-          <div className="glass-panel border-red-500/20 bg-red-500/5 mb-4 px-4 py-3 flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-3">
-              <Zap size={16} className="text-red-400" />
-              <p className="text-sm font-medium text-red-200">{error}</p>
+          <div className="glass-panel border-red-500/20 bg-red-500/5 mb-3 sm:mb-4 px-3 py-2 sm:px-4 sm:py-3 flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <Zap size={15} className="text-red-400 shrink-0" />
+              <p className="text-xs sm:text-sm font-medium text-red-200 truncate">{error}</p>
             </div>
-            <button onClick={() => setError(null)} className="hover:bg-white/10 p-1.5 rounded-lg">✕</button>
+            <button onClick={() => setError(null)} className="hover:bg-white/10 p-1.5 rounded-lg shrink-0">✕</button>
           </div>
         )}
 
+        {/* Mobile View Switcher Pill (Visible only on < lg screens) */}
+        <div className="flex lg:hidden items-center justify-center gap-1.5 mb-2.5 p-1 bg-[var(--color-surface)] border border-[var(--color-card-border)] rounded-xl shrink-0">
+          <button
+            onClick={() => setMobileTab("map")}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+              mobileTab === "map"
+                ? "bg-[var(--color-green)]/15 border border-[var(--color-green)]/40 text-[var(--color-green)] shadow-sm"
+                : "text-[var(--color-text-dim)] hover:text-[var(--color-text)]"
+            }`}
+          >
+            <span>🗺️</span>
+            <span>Map & Route</span>
+          </button>
+          <button
+            onClick={() => setMobileTab("controls")}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+              mobileTab === "controls"
+                ? "bg-[var(--color-purple)]/15 border border-[var(--color-purple)]/40 text-[var(--color-purple)] shadow-sm"
+                : "text-[var(--color-text-dim)] hover:text-[var(--color-text)]"
+            }`}
+          >
+            <span>🎛️</span>
+            <span>Nodes & Intel</span>
+          </button>
+        </div>
+
         {activeStatus?.is_alert && !toastHidden && (
-          <div className={`fixed top-24 right-6 z-[1000] glass-panel border-red-500/30 bg-red-500/10 p-4 min-w-[340px] shadow-[var(--glow-neon)] ${isClosing ? 'animate-alert-pop-out' : 'animate-alert-pop-in'}`}>
-            <div className="flex gap-4">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center text-2xl">🚨</div>
+          <div className={`fixed top-16 sm:top-24 right-3 left-3 sm:left-auto sm:right-6 z-[1000] glass-panel border-red-500/30 bg-red-500/10 p-3 sm:p-4 sm:min-w-[340px] shadow-[var(--glow-neon)] ${isClosing ? 'animate-alert-pop-out' : 'animate-alert-pop-in'}`}>
+            <div className="flex gap-3 sm:gap-4">
+              <div className="relative shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-red-500/20 flex items-center justify-center text-xl sm:text-2xl">🚨</div>
                 <div className="absolute inset-0 rounded-2xl border-2 border-red-500 animate-ping opacity-20"></div>
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <ShieldAlert size={14} className="text-red-400" />
-                  <h3 className="text-xs font-black tracking-widest uppercase">Critical Overflow</h3>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <ShieldAlert size={14} className="text-red-400 shrink-0" />
+                  <h3 className="text-[11px] sm:text-xs font-black tracking-widest uppercase truncate">Critical Overflow</h3>
                 </div>
-                <p className="text-[11px] mt-1 font-bold opacity-70">Node {activeBin} at {activeStatus.fill_pct.toFixed(0)}%</p>
+                <p className="text-[10px] sm:text-[11px] mt-0.5 sm:mt-1 font-bold opacity-70 truncate">Node {activeBin} at {activeStatus.fill_pct.toFixed(0)}%</p>
                 <button
                   onClick={handleOptimize}
                   disabled={optimizing}
-                  className="mt-3 w-full py-2 bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+                  className="mt-2 sm:mt-3 w-full py-1.5 sm:py-2 bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 rounded-lg text-[9.5px] sm:text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
                 >
-                  {optimizing ? <Loader2 className="animate-spin mx-auto" size={14} /> : "Dispatch Fleet →"}
+                  {optimizing ? <Loader2 className="animate-spin mx-auto" size={13} /> : "Dispatch Fleet →"}
                 </button>
               </div>
-              <button onClick={handleCloseToast} className="self-start opacity-20 hover:opacity-100">✕</button>
+              <button onClick={handleCloseToast} className="self-start opacity-20 hover:opacity-100 p-1">✕</button>
             </div>
           </div>
         )}
 
         {/* ── Sensor Failure Toast ── */}
         {sensorToast && (
-          <div className={`fixed top-24 right-6 z-[1000] glass-panel border-orange-500/30 bg-orange-500/10 p-4 min-w-[340px] shadow-[0_0_20px_rgba(249,115,22,0.2)] ${sensorToastClosing ? 'animate-alert-pop-out' : 'animate-alert-pop-in'}`}>
-            <div className="flex gap-4">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center text-2xl">⚡</div>
+          <div className={`fixed top-16 sm:top-24 right-3 left-3 sm:left-auto sm:right-6 z-[1000] glass-panel border-orange-500/30 bg-orange-500/10 p-3 sm:p-4 sm:min-w-[340px] shadow-[0_0_20px_rgba(249,115,22,0.2)] ${sensorToastClosing ? 'animate-alert-pop-out' : 'animate-alert-pop-in'}`}>
+            <div className="flex gap-3 sm:gap-4">
+              <div className="relative shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center text-xl sm:text-2xl">⚡</div>
                 <div className="absolute inset-0 rounded-2xl border-2 border-orange-500 animate-ping opacity-20"></div>
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <WifiOff size={14} className="text-orange-400" />
-                  <h3 className="text-xs font-black tracking-widest uppercase">Sensor Fault Injected</h3>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <WifiOff size={14} className="text-orange-400 shrink-0" />
+                  <h3 className="text-[11px] sm:text-xs font-black tracking-widest uppercase truncate">Sensor Fault Injected</h3>
                 </div>
-                <p className="text-[11px] mt-1 font-bold opacity-70">{sensorToast.description}</p>
-                <p className="text-[10px] mt-0.5 opacity-50 font-mono">{sensorToast.injected}</p>
+                <p className="text-[10px] sm:text-[11px] mt-0.5 sm:mt-1 font-bold opacity-70 truncate">{sensorToast.description}</p>
+                <p className="text-[9.5px] sm:text-[10px] mt-0.5 opacity-50 font-mono truncate">{sensorToast.injected}</p>
                 <button
                   onClick={handleResetSensor}
-                  className="mt-3 w-full py-2 bg-orange-500/20 hover:bg-orange-500/40 border border-orange-500/40 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all"
+                  className="mt-2 sm:mt-3 w-full py-1.5 sm:py-2 bg-orange-500/20 hover:bg-orange-500/40 border border-orange-500/40 rounded-lg text-[9.5px] sm:text-[10px] font-black uppercase tracking-widest transition-all"
                 >
                   Reset Sensor →
                 </button>
               </div>
-              <button onClick={() => { setSensorToastClosing(true); setTimeout(() => setSensorToast(null), 400); }} className="self-start opacity-20 hover:opacity-100">✕</button>
+              <button onClick={() => { setSensorToastClosing(true); setTimeout(() => setSensorToast(null), 400); }} className="self-start opacity-20 hover:opacity-100 p-1">✕</button>
             </div>
           </div>
         )}
 
-        <div className="flex-1 overflow-hidden flex gap-0 items-stretch relative">
-          {/* 1. Left Sidebar (Resizable) */}
+        <div className="flex-1 overflow-hidden flex flex-col lg:flex-row gap-0 items-stretch relative">
+          {/* 1. Left Sidebar (Controls & Nodes) */}
           <section
-            className="h-full overflow-y-auto space-y-6 pr-4 custom-scrollbar shrink-0"
-            style={{ width: `${sidebarWidth}px` }}
+            className={`h-full overflow-y-auto space-y-4 sm:space-y-6 pr-0 lg:pr-4 custom-scrollbar shrink-0 w-full lg:w-auto ${
+              mobileTab === "controls" ? "flex flex-col" : "hidden lg:flex lg:flex-col"
+            }`}
+            style={{ width: window.innerWidth >= 1024 ? `${sidebarWidth}px` : "100%" }}
           >
             <BinCard status={activeStatus} loading={loading} threshold={threshold} sensorDiag={activeSensorDiag} />
             <ControlPanel
@@ -400,7 +430,7 @@ export default function App() {
             />
             <AgentPanel route={route} optimizing={optimizing} status={activeStatus} />
 
-            <footer className="pb-6 border-t border-[var(--color-card-border)] pt-6 flex flex-col items-center gap-4">
+            <footer className="pb-6 border-t border-[var(--color-card-border)] pt-4 sm:pt-6 flex flex-col items-center gap-3">
               <div className="text-center space-y-1">
                 <p className="text-[9px] uppercase tracking-[0.4em] text-[var(--color-text-dim)] font-black">SafaiChakra Intelligence System</p>
                 <p className="text-[8px] text-[var(--color-text-muted)] font-bold uppercase tracking-widest leading-relaxed">Smart Waste Collection Route Optimizer<br />© {new Date().getFullYear()}</p>
@@ -408,15 +438,17 @@ export default function App() {
             </footer>
           </section>
 
-          {/* 2. Drag Divider */}
+          {/* 2. Drag Divider (Desktop only) */}
           <div
             onMouseDown={startResizing}
-            className={`group w-1 hover:bg-[var(--color-green)]/20 cursor-col-resize transition-all flex items-center justify-center relative z-[1010] mx-1 ${isResizing ? 'bg-[var(--color-green)]/30 w-1.5' : 'bg-transparent'}`}
+            className={`hidden lg:flex group w-1 hover:bg-[var(--color-green)]/20 cursor-col-resize transition-all items-center justify-center relative z-[1010] mx-1 ${isResizing ? 'bg-[var(--color-green)]/30 w-1.5' : 'bg-transparent'}`}
           />
 
           {/* 3. Right Map Section */}
-          <section className="flex-1 flex flex-col gap-0 h-full overflow-hidden min-w-0">
-            <div className="flex-1 relative min-h-0">
+          <section className={`flex-1 flex flex-col gap-0 h-full overflow-hidden min-w-0 w-full ${
+            mobileTab === "map" ? "flex" : "hidden lg:flex"
+          }`}>
+            <div className="flex-1 relative min-h-[260px]">
               <MapView
                 route={route}
                 optimizing={optimizing}
@@ -433,13 +465,13 @@ export default function App() {
               />
             </div>
 
-            {/* Horizontal Drag Divider */}
+            {/* Horizontal Drag Divider (Desktop only) */}
             <div
               onMouseDown={startResizingV}
-              className={`h-1.5 hover:h-2 hover:bg-[var(--color-green)]/30 cursor-row-resize transition-all relative z-[1010] my-1 ${isResizingV ? 'bg-[var(--color-green)]/40 h-2' : 'bg-transparent'}`}
+              className={`hidden lg:block h-1.5 hover:h-2 hover:bg-[var(--color-green)]/30 cursor-row-resize transition-all relative z-[1010] my-1 ${isResizingV ? 'bg-[var(--color-green)]/40 h-2' : 'bg-transparent'}`}
             />
 
-            <div className="shrink-0" style={{ height: `${bottomHeight}px` }}>
+            <div className="shrink-0 overflow-y-auto custom-scrollbar mt-2 sm:mt-0" style={{ height: window.innerWidth >= 1024 ? `${bottomHeight}px` : "auto", maxHeight: "40vh" }}>
               <SavingsCard routeData={routeData} />
             </div>
           </section>

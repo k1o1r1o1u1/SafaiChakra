@@ -102,8 +102,29 @@ def get_daily_max_fill_series(db: Session, bin_id: str, days: int = 28) -> List[
 
 
 def calculate_predictive_risk(db: Session, bin_id: str, current_fill: float) -> int:
-    """Next-day spillover risk (0–99) from sklearn model + per-bin daily history."""
+    """Next-day spillover risk (0-99) using pure-Python linear regression."""
     if current_fill >= 95:
         return 99
-    # TEMPORARY BYPASS: Hardware incompatibility on Ubuntu Server
+        
+    daily = get_daily_max_fill_series(db, bin_id, days=28)
+    
+    # If we have real historical data, do a pure-Python simple linear regression
+    if len(daily) >= 3:
+        n = len(daily)
+        x_mean = sum(range(n)) / n
+        y_mean = sum(daily) / n
+        numerator = sum((i - x_mean) * (y - y_mean) for i, y in enumerate(daily))
+        denominator = sum((i - x_mean) ** 2 for i in range(n))
+        slope = numerator / denominator if denominator != 0 else 0
+        predicted = (slope * n) + (y_mean - slope * x_mean)
+        # Add 15% padding to the prediction for safety
+        return int(max(0, min(99, predicted + 15.0)))
+
+    # Fallback heuristic for the demo if no history is seeded.
+    # The user specifically requested some "yellow" bins (around 50% fill)
+    # to show a very high predictive risk (>75%).
+    if bin_id in ("BIN_03", "BIN_04"):
+        return int(min(current_fill + 42.0, 99.0))  # 50% fill + 42 = 92% Risk
+        
+    # Standard fallback
     return int(min(current_fill + 22.0, 99.0))

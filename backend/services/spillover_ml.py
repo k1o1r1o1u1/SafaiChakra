@@ -41,21 +41,25 @@ def _synthetic_dataset(n_samples: int = 6000, seed: int = 42) -> tuple[np.ndarra
     return np.vstack(X_rows), np.asarray(y_vals, dtype=np.float64)
 
 
+import threading
+_model_lock = threading.Lock()
+
 def _ensure_model() -> Optional[object]:
     global _model
     if HistGradientBoostingRegressor is None:
         return None
-    if _model is None:
-        X, y = _synthetic_dataset()
-        m = HistGradientBoostingRegressor(
-            max_iter=80,
-            max_depth=6,
-            learning_rate=0.08,
-            min_samples_leaf=16,
-            random_state=42,
-        )
-        m.fit(X, y)
-        _model = m
+    with _model_lock:
+        if _model is None:
+            X, y = _synthetic_dataset()
+            m = HistGradientBoostingRegressor(
+                max_iter=80,
+                max_depth=6,
+                learning_rate=0.08,
+                min_samples_leaf=16,
+                random_state=42,
+            )
+            m.fit(X, y)
+            _model = m
     return _model
 
 

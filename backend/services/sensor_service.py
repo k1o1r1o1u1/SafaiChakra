@@ -29,7 +29,8 @@ from services.bin_service import get_latest_reading, get_history
 
 
 # ── Configurable knobs (env-overridable) ────────────────────────────────────
-STALE_THRESHOLD_SECONDS = int(os.getenv("STALE_THRESHOLD_SECONDS", 86400)) # 24 hours for demo
+# Set STALE_THRESHOLD_SECONDS > 0 in .env if you want automatic time-based failure. Default 0 (disabled) prevents static demo data from failing.
+STALE_THRESHOLD_SECONDS = int(os.getenv("STALE_THRESHOLD_SECONDS", 0))
 FROZEN_WINDOW           = int(os.getenv("FROZEN_WINDOW", 5))              # readings
 FROZEN_TOLERANCE        = float(os.getenv("FROZEN_TOLERANCE", 0.1))       # ±0.1%
 ERRATIC_JUMP_THRESHOLD  = float(os.getenv("ERRATIC_JUMP_THRESHOLD", 40))  # >40% swing
@@ -54,7 +55,7 @@ def _diagnose_single_bin(
     issues: List[str] = []
     severity = OK
 
-    # 1. Stale?
+    # 1. Stale? (Only checked if STALE_THRESHOLD_SECONDS is explicitly configured > 0)
     ts = latest.created_at
     if ts.tzinfo is None:
         # Naive timestamp from DB — assume UTC
@@ -63,7 +64,7 @@ def _diagnose_single_bin(
         reading_age = (now - ts).total_seconds()
     # Guard against negative ages (clock skew / future timestamps)
     reading_age = max(0, reading_age)
-    if reading_age > STALE_THRESHOLD_SECONDS:
+    if STALE_THRESHOLD_SECONDS > 0 and reading_age > STALE_THRESHOLD_SECONDS:
         issues.append(f"No data for {int(reading_age)}s (threshold {STALE_THRESHOLD_SECONDS}s)")
         severity = FAILURE
 

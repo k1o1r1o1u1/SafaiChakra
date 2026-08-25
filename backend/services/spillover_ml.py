@@ -41,6 +41,11 @@ def _synthetic_dataset(n_samples: int = 6000, seed: int = 42) -> tuple[np.ndarra
     return np.vstack(X_rows), np.asarray(y_vals, dtype=np.float64)
 
 
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+
 import threading
 _model_lock = threading.Lock()
 

@@ -37,7 +37,7 @@ def update_bin(payload: BinUpdateRequest, db: Session = Depends(get_db)):
 
 
 @router.get("/status/{bin_id}", response_model=BinStatusResponse)
-def get_bin_status(bin_id: str, db: Session = Depends(get_db)):
+async def get_bin_status(bin_id: str, db: Session = Depends(get_db)):
     """Return the **latest** reading for a given bin."""
     reading = bin_service.get_latest_reading(db, bin_id)
     if not reading:

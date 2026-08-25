@@ -90,7 +90,7 @@ def get_all_bins(db: Session) -> List[str]:
 def get_daily_max_fill_series(db: Session, bin_id: str, days: int = 28) -> List[float]:
     """Per calendar day, max(fill_pct) for that bin, oldest → newest."""
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
-    day_col = cast(models.BinReading.created_at, Date)
+    day_col = func.date(models.BinReading.created_at)
     q = (
         db.query(day_col, func.max(models.BinReading.fill_pct))
         .filter(models.BinReading.bin_id == bin_id)

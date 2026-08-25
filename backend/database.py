@@ -27,11 +27,11 @@ engine_kwargs = {
     "connect_args": connect_args,
 }
 
-if _is_transaction_pooler:
-    # Transaction mode works best with NullPool to avoid double-pooling issues
+if _is_sqlite or _is_transaction_pooler:
+    # Transaction mode and SQLite work best with NullPool to avoid pooling issues
     engine_kwargs["poolclass"] = NullPool
 elif not _is_sqlite:
-    # Standard mode (Session or direct) - use SQLAlchemy's pool
+    # Standard Postgres mode (Session or direct) - use SQLAlchemy's pool
     engine_kwargs.update({
         "pool_pre_ping": True,
         "pool_size": 5,

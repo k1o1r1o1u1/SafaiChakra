@@ -13,7 +13,7 @@ import AnalyticsPage from "./components/AnalyticsPage";
 
 // Use a relative path in production so FastAPI can serve the frontend directly
 const API_BASE = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === "development" ? `http://${window.location.hostname}:8000` : "");
-const POLL_MS = 30000; // Reduced from 300000 (5 mins) to 5 seconds for testing
+const POLL_MS = 300000; // Auto-refresh every 5 minutes (user will manually refresh for demo)
 
 // Bypass Ngrok free tier browser warning
 axios.defaults.headers.common["ngrok-skip-browser-warning"] = "69420";
@@ -296,7 +296,7 @@ export default function App() {
 
   return (
     <div className="h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)] selection:bg-[var(--color-green)]/30 font-inter antialiased overflow-hidden transition-colors duration-300">
-      <Navbar lastUpdated={lastUpdated} isLive={isLive} page={page} setPage={setPage} />
+      <Navbar lastUpdated={lastUpdated} isLive={isLive} page={page} setPage={setPage} onRefresh={() => fetchData()} />
 
       {page === "analytics" && (
         <div className="flex-1 overflow-hidden mt-16 slide-in">

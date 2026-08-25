@@ -1,7 +1,7 @@
-import { Leaf, Activity, Sun, Moon, BarChart2, LayoutDashboard } from "lucide-react";
+import { Leaf, Activity, Sun, Moon, BarChart2, LayoutDashboard, RefreshCw } from "lucide-react";
 import { useState } from "react";
 
-export default function Navbar({ lastUpdated, isLive, page, setPage }) {
+export default function Navbar({ lastUpdated, isLive, page, setPage, onRefresh }) {
   const [theme, setTheme] = useState(document.documentElement.getAttribute("data-theme") || "light");
 
   const toggleTheme = () => {
@@ -71,6 +71,14 @@ export default function Navbar({ lastUpdated, isLive, page, setPage }) {
               {lastUpdated || "--:--:--"}
             </span>
           </div>
+
+          <button
+            onClick={onRefresh}
+            className="p-2 rounded-xl bg-[var(--color-bg)] border-2 border-[var(--color-card-border)] text-[var(--color-text-dim)] hover:text-[var(--color-green)] transition-all shadow-sm active:scale-95 group"
+            title="Refresh Data"
+          >
+            <RefreshCw size={18} className="transition-transform group-hover:rotate-180 duration-500" />
+          </button>
 
           <button
             onClick={toggleTheme}

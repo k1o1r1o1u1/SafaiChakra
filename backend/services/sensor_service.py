@@ -30,7 +30,7 @@ from services.bin_service import get_latest_reading, get_history
 
 # ── Configurable knobs (env-overridable) ────────────────────────────────────
 # Set STALE_THRESHOLD_SECONDS > 0 in .env if you want automatic time-based failure. Default 0 (disabled) prevents static demo data from failing.
-STALE_THRESHOLD_SECONDS = int(os.getenv("STALE_THRESHOLD_SECONDS", 0))
+STALE_THRESHOLD_SECONDS = int(os.getenv("STALE_THRESHOLD_SECONDS", 8640000))
 FROZEN_WINDOW           = int(os.getenv("FROZEN_WINDOW", 5))              # readings
 FROZEN_TOLERANCE        = float(os.getenv("FROZEN_TOLERANCE", 0.1))       # ±0.1%
 ERRATIC_JUMP_THRESHOLD  = float(os.getenv("ERRATIC_JUMP_THRESHOLD", 40))  # >40% swing

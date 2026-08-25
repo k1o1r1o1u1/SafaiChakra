@@ -115,12 +115,16 @@ export default function App() {
     try {
       const bins = await fetchAllBins();
       const results = await Promise.allSettled(
-        bins.map(id => axios.get(`${API_BASE}/bin/status/${id}`, { signal }))
+        bins.map(id => axios.get(`${API_BASE}/bin/status/${id}`))
       );
 
       const statusMap = {};
       results.forEach((res, i) => {
-        if (res.status === "fulfilled") statusMap[bins[i]] = res.value.data;
+        if (res.status === "fulfilled") {
+          statusMap[bins[i]] = res.value.data;
+        } else {
+          console.error(`Failed to fetch status for ${bins[i]}:`, res.reason);
+        }
       });
 
       setStatuses(statusMap);

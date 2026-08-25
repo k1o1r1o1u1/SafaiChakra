@@ -14,6 +14,9 @@ import AnalyticsPage from "./components/AnalyticsPage";
 const API_BASE = process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000`;
 const POLL_MS = 3000; // Reduced from 300000 (5 mins) to 5 seconds for testing
 
+// Bypass Ngrok free tier browser warning
+axios.defaults.headers.common["ngrok-skip-browser-warning"] = "69420";
+
 export default function App() {
   const [page, setPage] = useState("dashboard");
   const [allBins, setAllBins] = useState([]);

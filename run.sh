@@ -27,7 +27,7 @@ cd ..
 # Start the frontend
 echo "-> Starting Frontend (Port 3000)..."
 cd frontend
-npm start
+HOST=0.0.0.0 npm start
 
 # Wait for background processes to finish (this keeps the script running until you Ctrl+C)
 wait $BACKEND_PID

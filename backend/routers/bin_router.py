@@ -81,7 +81,9 @@ def get_bin_history(
 @router.get("/all", response_model=List[str])
 def list_all_bins(db: Session = Depends(get_db)):
     """Return a list of all known bin IDs."""
-    return bin_service.get_all_bins(db)
+    bins = bin_service.get_all_bins(db)
+    print(f"\n[DEBUG] /bin/all is returning: {bins}\n")
+    return bins
 
 
 @router.get("/predict")

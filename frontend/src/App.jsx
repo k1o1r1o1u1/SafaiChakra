@@ -11,7 +11,7 @@ import SavingsCard from "./components/SavingsCard";
 import AnalyticsPage from "./components/AnalyticsPage";
 
 
-const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
+const API_BASE = `http://${window.location.hostname}:8000`;
 const POLL_MS = 3000; // Reduced from 300000 (5 mins) to 5 seconds for testing
 
 export default function App() {

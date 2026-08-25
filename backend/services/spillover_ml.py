@@ -9,10 +9,11 @@ from typing import List, Optional
 
 import numpy as np
 
-try:
-    from sklearn.ensemble import HistGradientBoostingRegressor
-except ImportError:  # pragma: no cover
-    HistGradientBoostingRegressor = None  # type: ignore[misc, assignment]
+# try:
+#     from sklearn.ensemble import HistGradientBoostingRegressor
+# except ImportError:  # pragma: no cover
+#     HistGradientBoostingRegressor = None  # type: ignore[misc, assignment]
+HistGradientBoostingRegressor = None
 
 _model: Optional[object] = None
 

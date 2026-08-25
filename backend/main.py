@@ -52,10 +52,8 @@ app.include_router(sensor_router)
 app.include_router(feedback_router)
 
 # ── Health / root ─────────────────────────────────────────────────────────────
-@app.get("/", tags=["Meta"])
-def root():
-    return {"project": "SafaiChakra", "status": "running", "docs": "/docs"}
-
+from fastapi.staticfiles import StaticFiles
+import os
 
 @app.get("/health", tags=["Meta"])
 def health():
@@ -65,3 +63,10 @@ def health():
 @app.get("/ping")
 def ping():
     return {"status": "ok", "message": "SafaiChakra is awake!"}
+
+# Serve the compiled React frontend statically from the backend
+frontend_dir = os.path.join(os.path.dirname(__file__), "../frontend/build")
+if os.path.exists(frontend_dir):
+    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+else:
+    print(f"WARNING: Frontend build directory not found at {frontend_dir}. Run 'npm run build' in the frontend directory.")
